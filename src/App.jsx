@@ -15,77 +15,62 @@ const SOCIAL = {
 const wa = (message) =>
   `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
 
+/* =====================================
+   CLEANO SERVICES
+===================================== */
+
 const SERVICES = [
   {
-    number: "01",
-    title: "Full home deep cleaning",
-    description: "A proper top-to-bottom refresh for every room, including the places regular cleaning misses.",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85",
-    alt: "Bright, freshly cleaned contemporary living room",
+    title: "Residential Deep Cleaning",
+    description:
+      "Complete deep cleaning solutions for furnished homes, leaving every space fresh, spotless and hygienic.",
+    image: "/interior.png",
+    alt: "Clean modern residential living room",
   },
   {
-    number: "02",
-    title: "Kitchen cleaning",
-    description: "Cut through built-up grease on tiles, cabinets, chimneys and kitchen surfaces.",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85",
-    alt: "Clean modern kitchen with bright countertops",
+    title: "Exterior Deep Cleaning",
+    description:
+      "Deep cleaning for exterior walls, driveways and outdoor surfaces, removing dirt, stains and algae.",
+    image: "/exterior.png",
+    alt: "Exterior wall cleaning service",
   },
   {
-    number: "03",
-    title: "Bathroom cleaning",
-    description: "Give tiles, fittings, grout and hard-to-reach corners a detailed clean and sanitise.",
-    image: "https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1000&q=85",
-    alt: "Fresh, minimal bathroom",
+    title: "Bathroom Deep Cleaning",
+    description:
+      "Restore the sparkle of your bathroom with deep cleaning that eliminates stains and germs.",
+    image: "/bath.png",
+    alt: "Bathroom deep cleaning service",
   },
   {
-    number: "04",
-    title: "Sofa & carpet care",
-    description: "A deeper clean to lift embedded dirt, everyday odours and trapped dust from soft furnishings.",
-    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=85",
-    alt: "Comfortable sofa in a tidy living room",
+    title: "Water Tank Cleaning",
+    description:
+      "Thorough cleaning of overhead and underground water tanks to maintain clean and hygienic water storage.",
+    image: "/watertank.png",
+    alt: "Professional water tank cleaning",
   },
-  {
-    number: "05",
-    title: "Water tank cleaning",
-    description: "Hygienic cleaning for overhead and underground water tanks, handled with care.",
-    image: "https://images.unsplash.com/photo-1564540583246-934409427776?auto=format&fit=crop&w=1000&q=85",
-    alt: "Clean water flowing from a tap",
-  },
-  {
-    number: "06",
-    title: "Post-construction cleaning",
-    description: "Clear away construction dust, paint marks and leftover mess before move-in day.",
-    image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=85",
-    alt: "Newly finished home interior",
-  },
-  {
-    number: "07",
-    title: "Office deep cleaning",
-    description: "Thoughtful cleaning for workspaces, pantry areas, washrooms and shared spaces.",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1000&q=85",
-    alt: "Neat, bright modern office",
-  },
-  {
-    number: "08",
-    title: "Move-in / move-out",
-    description: "Leave your old place ready for its next chapter, or make your new one feel like home.",
-    image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85",
-    alt: "Freshly prepared home interior",
-  },
-];
-
-const FAQS = [
-  ["How do I get a quote?", "Choose the service you need and send us your details through the enquiry form. Sharing your area and approximate property size helps us give you a useful estimate."],
-  ["Do I need to arrange cleaning equipment?", "No. Our team brings the equipment and cleaning products needed for the agreed service."],
-  ["Can I book a specific day?", "Send us your preferred date when you enquire. We will confirm the available time slots directly."],
-  ["Which areas do you cover?", "We serve Trivandrum and nearby areas. Share your location with us and we will confirm whether we can visit."],
 ];
 
 const TRUST_POINTS = [
-  ["01", "A careful, detailed clean", "A clear checklist helps our team work through the areas that matter."],
-  ["02", "The right tools for the job", "Professional equipment is brought along for the agreed cleaning service."],
-  ["03", "No price surprises", "Understand the quote and scope before the work begins."],
+  [
+    "01",
+    "A careful, detailed clean",
+    "A clear checklist helps our team work through the areas that matter.",
+  ],
+  [
+    "02",
+    "The right tools for the job",
+    "Professional equipment is brought along for the agreed cleaning service.",
+  ],
+  [
+    "03",
+    "No price surprises",
+    "Understand the quote and scope before the work begins.",
+  ],
 ];
+
+/* =====================================
+   BRAND
+===================================== */
 
 function Brand({ footer = false }) {
   return (
@@ -99,14 +84,20 @@ function Brand({ footer = false }) {
       ) : (
         <>
           <span className="brand-mark">c.</span>
-          <span>cleano<span className="brand-period">.</span></span>
+          <span>
+            cleano<span className="brand-period">.</span>
+          </span>
         </>
       )}
     </a>
   );
 }
 
-/* NAVBAR */
+/* =====================================
+   NAVBAR
+===================================== */
+
+
 function Header({ onEnquire }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -130,23 +121,44 @@ function Header({ onEnquire }) {
   const close = () => setMenuOpen(false);
 
   return (
-    <header className={`site-header${scrolled ? " scrolled" : ""}`}>
-      <div className="container nav-wrap">
+    <header className={`site-header premium-header ${scrolled ? "scrolled" : ""}`}>
+      <div className="nav-wrap premium-nav-wrap">
+
         <Brand />
 
         <nav
-          className={`main-nav${menuOpen ? " is-open" : ""}`}
+          className={`main-nav premium-nav ${menuOpen ? "is-open" : ""}`}
           aria-label="Main navigation"
         >
           <a href="#home" onClick={close}>Home</a>
-          <a href="#services" onClick={close}>Our Services</a>
-          <a href="#about" onClick={close}>Why CleanO</a>
-          <a href="#faq" onClick={close}>FAQs</a>
+          <a href="#services" onClick={close}>Services</a>
+          <a href="#about" onClick={close}>About</a>
+          <a href="#process" onClick={close}>Our Process</a>
+          <a href="#contact" onClick={close}>Contact</a>
 
+          {/* <button
+            className="premium-mobile-cta"
+            onClick={() => {
+              close();
+              onEnquire("");
+            }}
+          >
+            Book a cleaning <span>↗</span>
+          </button> */}
         </nav>
 
+        <div className="premium-nav-actions">
+          <button
+            className="premium-cta"
+            onClick={() => onEnquire("")}
+          >
+            <span>Book a cleaning</span>
+            <span className="premium-cta-arrow">↗</span>
+          </button>
+        </div>
+
         <button
-          className={`menu-toggle${menuOpen ? " active" : ""}`}
+          className={`menu-toggle premium-menu-toggle ${menuOpen ? "active" : ""}`}
           type="button"
           aria-label={menuOpen ? "Close navigation" : "Open navigation"}
           aria-expanded={menuOpen}
@@ -155,10 +167,16 @@ function Header({ onEnquire }) {
           <span />
           <span />
         </button>
+
       </div>
     </header>
   );
 }
+
+
+/* =====================================
+   BOOKING / ENQUIRY MODAL
+===================================== */
 
 function BookingModal({ service, onClose }) {
   const [form, setForm] = useState({
@@ -193,7 +211,7 @@ function BookingModal({ service, onClose }) {
     event.preventDefault();
 
     const message = [
-      "Hello Cleano, I'd like to enquire about a cleaning service.",
+      "Hello Cleano, I'd like to enquire about a service.",
       `Name: ${form.name}`,
       `Phone: ${form.phone}`,
       `Service: ${form.service}`,
@@ -229,7 +247,9 @@ function BookingModal({ service, onClose }) {
         </button>
 
         <p className="eyebrow">LET'S GET STARTED</p>
+
         <h2 id="modal-title">Tell us what needs a clean.</h2>
+
         <p className="modal-intro">
           Share a few details. We'll take it from here on WhatsApp.
         </p>
@@ -310,6 +330,10 @@ function BookingModal({ service, onClose }) {
   );
 }
 
+/* =====================================
+   HERO SECTION
+===================================== */
+
 function Hero({ onEnquire }) {
   return (
     <section className="hero hero-cinematic" id="home">
@@ -329,7 +353,7 @@ function Hero({ onEnquire }) {
             <br />
             Cleaning
             <br />
-            <em>Services.</em>
+            Services.
           </h1>
 
           <p className="hero-description">
@@ -352,102 +376,176 @@ function Hero({ onEnquire }) {
   );
 }
 
+/* =====================================
+   PREMIUM SERVICES SECTION
+===================================== */
+
 function Services({ onEnquire }) {
+  const [direction, setDirection] = useState("left");
+
+  const changeDirection = (newDirection) => {
+    setDirection(newDirection);
+  };
+
   return (
     <section className="services-section section-pad" id="services">
       <div className="container">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">
-              <span className="eyebrow-line" /> WHAT WE DO
-            </p>
-            <h2>Good clean.<br /><em>Good feeling.</em></h2>
-          </div>
-
-          <p className="section-intro">
-            From a single room to an entire property, we make it easier
-            to care for the spaces that matter.
+        <div className="services-heading">
+          <p className="eyebrow">
+            <span className="eyebrow-line" /> WHAT WE DO
           </p>
+
+          <h2>
+            Our Services
+          </h2>
         </div>
+      </div>
 
-        <div className="services-grid">
-          {SERVICES.map((item, index) => (
-            <article
-              className={`service-card${index === 0 ? " service-card--feature" : ""}`}
-              key={item.number}
-            >
-              <button
-                className="service-image"
-                onClick={() => onEnquire(item.title)}
-                aria-label={`Enquire about ${item.title}`}
+      <div className="services-carousel">
+
+        {/* LEFT NAVIGATION */}
+        <button
+          className="services-nav services-nav--left"
+          onClick={() => changeDirection("right")}
+          aria-label="Move services left"
+          type="button"
+        >
+          ←
+        </button>
+
+        {/* RIGHT NAVIGATION */}
+        <button
+          className="services-nav services-nav--right"
+          onClick={() => changeDirection("left")}
+          aria-label="Move services right"
+          type="button"
+        >
+          →
+        </button>
+
+        <div className="services-marquee">
+          <div
+            className={`services-track ${
+              direction === "right" ? "move-right" : "move-left"
+            }`}
+          >
+            {[0, 1].map((group) => (
+              <div
+                className="services-group"
+                key={group}
+                aria-hidden={group === 1 ? "true" : undefined}
               >
-                <img src={item.image} alt={item.alt} loading="lazy" />
-                <span className="image-arrow">↗</span>
-              </button>
+                {SERVICES.map((item) => (
+                  <article
+                    className="service-card"
+                    key={`${group}-${item.number}`}
+                  >
+                    <button
+                      className="service-image"
+                      type="button"
+                      onClick={() => onEnquire(item.title)}
+                      aria-label={`Enquire about ${item.title}`}
+                      tabIndex={group === 1 ? -1 : 0}
+                    >
+                      <img
+                        src={item.image}
+                        alt={group === 1 ? "" : item.alt}
+                        loading="lazy"
+                      />
+                    </button>
 
-              <div className="service-meta">
-                <span>{item.number} / 08</span>
-                <span>CLEANO SERVICE</span>
+                    <div className="service-content">
+                      <div className="service-meta">
+                        <span>{item.number}</span>
+                        <span>{item.category}</span>
+                      </div>
+
+                      <h3>{item.title}</h3>
+
+                      <p>{item.description}</p>
+
+                      <div className="service-bottom">
+                        <button
+                          className="service-link"
+                          type="button"
+                          onClick={() => onEnquire(item.title)}
+                          tabIndex={group === 1 ? -1 : 0}
+                        >
+                          Enquire now
+                          <span className="service-link-line"></span>
+                        </button>
+
+                        <button
+                          className="service-arrow"
+                          type="button"
+                          onClick={() => onEnquire(item.title)}
+                          aria-label={`Enquire about ${item.title}`}
+                          tabIndex={group === 1 ? -1 : 0}
+                        >
+                          ↗
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
-
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-
-              <button
-                className="service-link"
-                onClick={() => onEnquire(item.title)}
-              >
-                Enquire about this <span>↗</span>
-              </button>
-            </article>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
+/* =====================================
+   MONTHLY BATHROOM PLAN
+===================================== */
+
 function About({ onEnquire }) {
+  const features = [
+    ["01", "4 cleaning visits every month", "One professional cleaning session every week."],
+    ["02", "Complete bathroom cleaning", "Tiles, floors, washbasins and fittings."],
+    ["03", "Affordable monthly plan", "Convenient cleaning at one fixed monthly price."]
+  ];
+
   return (
-    <section className="about-section section-pad" id="about">
-      <div className="container about-grid">
-        <div className="about-visual">
+    <section className="monthly-plan-section" id="about">
+      <div className="container monthly-plan-grid">
+
+        <div className="monthly-plan-visual">
           <img
-            src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=85"
-            alt="Cleaning professional carefully cleaning a home"
+            src="/bath.png"
+            alt="Bathroom deep cleaning"
             loading="lazy"
           />
-          <div className="about-label">
-            <span>CARE IN</span>
-            <strong>EVERY<br />CORNER.</strong>
+
+          <div className="monthly-plan-badge">
+            <span>MONTHLY PLAN</span>
+            <strong>₹2,499</strong>
+            <small>PER MONTH</small>
           </div>
         </div>
 
-        <div className="about-copy">
-          <p className="eyebrow eyebrow--light">
-            <span className="eyebrow-line" /> THE CLEANO APPROACH
-          </p>
-
+        <div className="monthly-plan-content">
           <h2>
-            It's not just<br />
-            about looking<br />
-            <em>clean.</em>
+            A fresh bathroom.
+            <br />
+            <em>Every week.</em>
           </h2>
 
-          <p className="about-lead">
-            It's about feeling comfortable in your own space.
+          <p className="monthly-plan-description">
+            Keep your bathroom spotless with four professional
+            deep cleaning visits every month.
           </p>
 
-          <p className="about-text">
-            We believe a good cleaning service should feel simple from
-            the first message to the final walkthrough. We listen to
-            what your space needs, explain the work clearly and arrive
-            ready to get it done.
-          </p>
+          <div className="monthly-plan-price">
+            <strong>₹2,499</strong>
+            <span>/ MONTH</span>
+          </div>
 
-          <div className="trust-list">
-            {TRUST_POINTS.map(([number, title, description]) => (
-              <div className="trust-item" key={number}>
+          <div className="monthly-plan-features">
+            {features.map(([number, title, description]) => (
+              <div className="monthly-plan-feature" key={number}>
                 <span>{number}</span>
                 <div>
                   <h3>{title}</h3>
@@ -457,24 +555,48 @@ function About({ onEnquire }) {
             ))}
           </div>
 
-          <button
+          <a
             className="button button--cream"
-            onClick={() => onEnquire("")}
+            href={wa(
+              "Hello CleanO! I'm interested in your Bathroom Deep Cleaning Monthly Plan for ₹2,499 (4 cleaning visits per month). Please share the booking details."
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            Talk to our team <span>↗</span>
-          </button>
+            Book Monthly Plan <span>↗</span>
+          </a>
         </div>
       </div>
     </section>
   );
 }
 
+/* =====================================
+   PROCESS SECTION
+===================================== */
+
 function Process({ onEnquire }) {
   const steps = [
-    ["01", "Tell us what you need", "Choose a service and share a little about your space."],
-    ["02", "Get a clear quote", "We'll discuss the scope, price and available timings."],
-    ["03", "We get to work", "Our team arrives with the equipment for the agreed job."],
-    ["04", "Walk through together", "Review the work with us before the team leaves."],
+    [
+      "01",
+      "Tell us what you need",
+      "Choose a service and share a little about your space.",
+    ],
+    [
+      "02",
+      "Get a clear quote",
+      "We'll discuss the scope, price and available timings.",
+    ],
+    [
+      "03",
+      "We get to work",
+      "Our team arrives with the equipment for the agreed job.",
+    ],
+    [
+      "04",
+      "Walk through together",
+      "Review the work with us before the team leaves.",
+    ],
   ];
 
   return (
@@ -485,15 +607,12 @@ function Process({ onEnquire }) {
             <p className="eyebrow">
               <span className="eyebrow-line" /> SIMPLE FROM THE START
             </p>
-            <h2>Four steps.<br /><em>One fresh space.</em></h2>
-          </div>
 
-          <button
-            className="text-link"
-            onClick={() => onEnquire("")}
-          >
-            Start an enquiry <span>↗</span>
-          </button>
+            <h2>
+              Four steps.<br />
+              <em>One fresh space.</em>
+            </h2>
+          </div>
         </div>
 
         <div className="process-grid">
@@ -511,57 +630,9 @@ function Process({ onEnquire }) {
   );
 }
 
-function FAQ() {
-  const [active, setActive] = useState(0);
-
-  return (
-    <section className="faq-section section-pad" id="faq">
-      <div className="container faq-grid">
-        <div>
-          <p className="eyebrow">
-            <span className="eyebrow-line" /> GOOD TO KNOW
-          </p>
-
-          <h2>A few things<br /><em>you might ask.</em></h2>
-
-          <p className="faq-aside">
-            Still have a question? We're happy to help.
-          </p>
-
-          <a
-            className="text-link"
-            href={wa("Hi Cleano, I have a question about your cleaning services.")}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Message us on WhatsApp <span>↗</span>
-          </a>
-        </div>
-
-        <div className="faq-list">
-          {FAQS.map(([question, answer], index) => (
-            <div
-              className={`faq-item${active === index ? " is-active" : ""}`}
-              key={question}
-            >
-              <button
-                onClick={() =>
-                  setActive(active === index ? -1 : index)
-                }
-                aria-expanded={active === index}
-              >
-                <span>{question}</span>
-                <b>{active === index ? "−" : "+"}</b>
-              </button>
-
-              {active === index && <p>{answer}</p>}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+/* =====================================
+   CONTACT SECTION
+===================================== */
 
 function Contact({ onEnquire }) {
   return (
@@ -571,20 +642,24 @@ function Contact({ onEnquire }) {
           <p className="eyebrow eyebrow--light">
             <span className="eyebrow-line" /> READY WHEN YOU ARE
           </p>
-          <h2>Let's make room<br />for <em>fresh.</em></h2>
+
+          <h2>
+            We treat every space with the care it deserves.<br />
+          </h2>
         </div>
 
         <div className="contact-side">
           <p>
             Tell us about your space. We'll help you figure out the next step.
           </p>
+
           <button
             className="button button--cream"
             onClick={() => onEnquire("")}
           >
             Get your quote <span>↗</span>
           </button>
-          <span className="contact-location">TRIVANDRUM, KERALA</span>
+    
         </div>
 
         <span className="contact-flower">✳</span>
@@ -593,6 +668,10 @@ function Contact({ onEnquire }) {
   );
 }
 
+/* =====================================
+   FOOTER
+===================================== */
+
 function Footer() {
   return (
     <footer className="site-footer">
@@ -600,7 +679,10 @@ function Footer() {
         <div className="footer-main">
           <div className="footer-brand">
             <Brand footer />
-            <p>Making everyday spaces feel<br />a little more like new.</p>
+            <p>
+              Making everyday spaces feel<br />
+              a little more like new.
+            </p>
           </div>
 
           <div className="footer-col">
@@ -608,7 +690,6 @@ function Footer() {
             <a href="#home">Home</a>
             <a href="#services">Our services</a>
             <a href="#about">Why Cleano</a>
-            <a href="#faq">FAQs</a>
           </div>
 
           <div className="footer-col">
@@ -619,25 +700,39 @@ function Footer() {
 
           <div className="footer-col">
             <h3>FOLLOW ALONG</h3>
+
             {Object.entries(SOCIAL)
               .filter(([, url]) => url)
               .map(([name, url]) => (
-                <a href={url} key={name} target="_blank" rel="noreferrer">
+                <a
+                  href={url}
+                  key={name}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {name} ↗
                 </a>
               ))}
+
             <span>Trivandrum, Kerala</span>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Cleano Cleaning Service</span>
+          <span>
+            © {new Date().getFullYear()} Cleano Cleaning Service
+          </span>
+
           <a href="#home">BACK TO TOP ↑</a>
         </div>
       </div>
     </footer>
   );
 }
+
+/* =====================================
+   MAIN APP
+===================================== */
 
 export default function App() {
   const [booking, setBooking] = useState(null);
@@ -651,7 +746,7 @@ export default function App() {
 
     return term
       ? SERVICES.filter((service) =>
-          `${service.title} ${service.description}`
+          `${service.title} ${service.description} ${service.category}`
             .toLowerCase()
             .includes(term)
         )
@@ -661,36 +756,14 @@ export default function App() {
   return (
     <>
       <Header onEnquire={openBooking} />
-      <Hero onEnquire={openBooking} />
 
-      {/* <div className="service-search-strip">
-        <div className="container search-strip-inner">
-          <label className="service-search">
-            <span>⌕</span>
-            <input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search our services"
-              aria-label="Search services"
-            />
-            {search && (
-              <button
-                onClick={() => setSearch("")}
-                aria-label="Clear search"
-              >
-                ×
-              </button>
-            )}
-          </label>
-        </div>
-      </div> */}
+      <Hero onEnquire={openBooking} />
 
       {search ? (
         <section className="services-section section-pad" id="services">
           <div className="container">
             <div className="section-heading">
-              <div>
-              </div>
+              <div></div>
 
               <span className="results-count">
                 {filteredServices.length} RESULT
@@ -706,16 +779,22 @@ export default function App() {
                       className="service-image"
                       onClick={() => openBooking(item.title)}
                     >
-                      <img src={item.image} alt={item.alt} loading="lazy" />
+                      <img
+                        src={item.image}
+                        alt={item.alt}
+                        loading="lazy"
+                      />
+
                       <span className="image-arrow">↗</span>
                     </button>
 
                     <div className="service-meta">
-                      <span>{item.number} / 08</span>
+                      <span>{item.number} / 05</span>
                       <span>CLEANO SERVICE</span>
                     </div>
 
                     <h3>{item.title}</h3>
+
                     <p>{item.description}</p>
 
                     <button
@@ -730,6 +809,7 @@ export default function App() {
             ) : (
               <p className="no-results">
                 No matching service yet.{" "}
+
                 <a
                   href={wa(`Hi Cleano, do you offer ${search}?`)}
                   target="_blank"
@@ -746,14 +826,18 @@ export default function App() {
       )}
 
       <About onEnquire={openBooking} />
+
       <Process onEnquire={openBooking} />
-      <FAQ />
+
       <Contact onEnquire={openBooking} />
+
       <Footer />
+
+      {/* FLOATING WHATSAPP BUTTON */}
 
       <a
         className="whatsapp-float"
-        href={wa("Hi Cleano, I'd like to enquire about your cleaning services.")}
+        href={wa("Hi Cleano, I'd like to enquire about your services.")}
         target="_blank"
         rel="noreferrer"
         aria-label="Chat with Cleano on WhatsApp"
@@ -761,6 +845,8 @@ export default function App() {
         <span className="wa-icon">◔</span>
         <span>Let's chat</span>
       </a>
+
+      {/* BOOKING MODAL */}
 
       {booking !== null && (
         <BookingModal
@@ -770,4 +856,4 @@ export default function App() {
       )}
     </>
   );
-} 
+}
