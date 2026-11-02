@@ -661,8 +661,6 @@ function Contact({ onEnquire }) {
           </button>
     
         </div>
-
-        <span className="contact-flower">✳</span>
       </div>
     </section>
   );
