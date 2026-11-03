@@ -960,35 +960,60 @@ img { display: block; width: 100%; }
 }
 
 .footer-bottom a { color: #dce5d8; }
-/* WHATSAPP */
+/* FLOATING WHATSAPP BUTTON — styled like the WhatsApp desktop app icon */
 .whatsapp-float {
   position: fixed;
-  z-index: 15;
+  z-index: 150;
   right: 24px;
   bottom: 23px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 12px 17px 12px 12px;
-  border: 1px solid rgba(255,255,255,.5);
-  border-radius: 40px;
-  background: #287b4b;
-  color: white;
-  box-shadow: 0 8px 28px rgba(20,45,30,.2);
-  font-size: 11px;
-  font-weight: 700;
-  transition: transform .2s;
-}
-
-.whatsapp-float:hover { transform: translateY(-3px); }
-.wa-icon {
   display: grid;
   place-items: center;
-  width: 25px;
-  height: 25px;
-  border: 1px solid rgba(255,255,255,.7);
-  border-radius: 50%;
-  font-size: 18px;
+  width: 66px;
+  height: 66px;
+  border: 2px solid rgba(255, 255, 255, .95);
+  border-radius: 19px;
+  background: #00d95f;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .22);
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.whatsapp-float:hover {
+  background: #00c853;
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .25);
+}
+
+.whatsapp-float:active {
+  transform: scale(.96);
+}
+
+.whatsapp-float:focus-visible {
+  outline: 3px solid #092b50;
+  outline-offset: 4px;
+}
+
+.wa-icon {
+  display: block;
+  width: 45px;
+  height: 45px;
+  color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .whatsapp-float {
+    right: 16px;
+    bottom: 18px;
+    width: 58px;
+    height: 58px;
+    border-radius: 17px;
+  }
+
+  .wa-icon {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 /* BOOKING MODAL */
@@ -2952,4 +2977,104 @@ img { display: block; width: 100%; }
 /* Hover after scrolling */
 .site-header.premium-header.scrolled .premium-nav > a:hover {
   color: #0878c9 !important;
+}
+
+/* =================================
+   ENQUIRY SUCCESS ANIMATION
+================================= */
+
+.enquiry-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 35px 15px 20px;
+  animation: successFadeIn 0.6s ease both;
+}
+
+.success-icon {
+  width: 85px;
+  height: 85px;
+  margin-bottom: 25px;
+}
+
+.success-icon svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.success-circle {
+  stroke: #20a568;
+  stroke-width: 2.5;
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: drawCircle 0.7s ease forwards;
+}
+
+.success-tick {
+  stroke: #20a568;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: drawTick 0.45s ease 0.65s forwards;
+}
+
+.enquiry-success h2 {
+  max-width: 100%;
+  margin: 0 0 14px;
+  color: #102b46;
+  font-family: var(--sans);
+  font-size: 25px;
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+}
+
+.enquiry-success p {
+  max-width: 350px;
+  margin: 0 auto 25px;
+  color: #63758a;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.enquiry-success .button {
+  max-width: 100%;
+}
+
+@keyframes drawCircle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawTick {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes successFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enquiry-success,
+  .success-circle,
+  .success-tick {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
 }

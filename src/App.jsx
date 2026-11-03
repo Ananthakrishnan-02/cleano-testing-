@@ -2,9 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import "./styles.css";
 
 /* Update these details before publishing. */
-const PHONE = "91XXXXXXXXXX";
-const PHONE_DISPLAY = "+91 6282773704, +91 9495050153";
+const PHONE = "919495544068";
+const PHONE_DISPLAY = "+91 94955 44068";
 const EMAIL = "cleanoprivate@gmail.com";
+// Paste your deployed Google Apps Script Web App URL here (the URL ending in /exec).
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby37ChfSM-l7CoP-rHRPm1MxyHd84xb-Fguwj_glY1-6PrklCJ94wxfB7uMZs6Ecgl-Bw/exec";
 const LOGO_SRC = "/logo.png";
 
 const SOCIAL = {
@@ -132,8 +134,7 @@ function Header({ onEnquire }) {
         >
           <a href="#home" onClick={close}>Home</a>
           <a href="#services" onClick={close}>Services</a>
-          <a href="#about" onClick={close}>About</a>
-          <a href="#process" onClick={close}>Our Process</a>
+          <a href="#process" onClick={close}>How It Works</a>
           <a href="#contact" onClick={close}>Contact</a>
 
           {/* <button
@@ -146,16 +147,6 @@ function Header({ onEnquire }) {
             Book a cleaning <span>↗</span>
           </button> */}
         </nav>
-
-        <div className="premium-nav-actions">
-          <button
-            className="premium-cta"
-            onClick={() => onEnquire("")}
-          >
-            <span>Book a cleaning</span>
-            <span className="premium-cta-arrow">↗</span>
-          </button>
-        </div>
 
         <button
           className={`menu-toggle premium-menu-toggle ${menuOpen ? "active" : ""}`}
@@ -179,6 +170,8 @@ function Header({ onEnquire }) {
 ===================================== */
 
 function BookingModal({ service, onClose }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -207,20 +200,40 @@ function BookingModal({ service, onClose }) {
       [event.target.name]: event.target.value,
     }));
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
+    if (isSubmitting) return;
 
-    const message = [
-      "Hello Cleano, I'd like to enquire about a service.",
-      `Name: ${form.name}`,
-      `Phone: ${form.phone}`,
-      `Service: ${form.service}`,
-      `Area / property size: ${form.area || "Not specified"}`,
-      `Additional details: ${form.message || "None"}`,
-    ].join("\n");
+    if (!GOOGLE_SCRIPT_URL) {
+      alert("Google Sheets connection is not configured.");
+      return;
+    }
 
-    window.open(wa(message), "_blank", "noopener,noreferrer");
-    onClose();
+    setIsSubmitting(true);
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          phone: form.phone.trim(),
+          service: form.service,
+          location: form.area.trim(),
+          message: form.message.trim(),
+        }),
+      });
+
+      setSuccess(true);
+    } catch (error) {
+      console.error("Enquiry submission error:", error);
+      alert("Unable to send your enquiry. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -230,9 +243,8 @@ function BookingModal({ service, onClose }) {
         event.target === event.currentTarget && onClose()
       }
     >
-      <form
+      <div
         className="enquiry-modal"
-        onSubmit={submit}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
@@ -246,86 +258,107 @@ function BookingModal({ service, onClose }) {
           ×
         </button>
 
-        <p className="eyebrow">LET'S GET STARTED</p>
+        {success ? (
+          <div className="enquiry-success">
+            <div className="success-icon" aria-hidden="true">
+              <svg viewBox="0 0 52 52" fill="none">
+                <circle className="success-circle" cx="26" cy="26" r="24" />
+                <path className="success-tick" d="M15 27L22 34L37 18" />
+              </svg>
+            </div>
 
-        <h2 id="modal-title">Tell us what needs a clean.</h2>
+            <h2 id="modal-title">Thank You for Contacting Us!</h2>
+            <p>
+              Your enquiry has been submitted successfully. We appreciate
+              your interest in Cleano. Our team will get in touch with you shortly.
+            </p>
 
-        <p className="modal-intro">
-          Share a few details. We'll take it from here on WhatsApp.
-        </p>
+            <button
+              className="button button--dark button--wide"
+              type="button"
+              onClick={onClose}
+            >
+              Done
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={submit}>
+            <p className="eyebrow">LET'S GET STARTED</p>
+            <h2 id="modal-title">Tell us what needs a clean.</h2>
+            <p className="modal-intro">
+              Share a few details. We'll save your enquiry and continue on WhatsApp.
+            </p>
 
-        <label>
-          Your name
-          <input
-            name="name"
-            value={form.name}
-            onChange={update}
-            required
-            placeholder="Name"
-            autoFocus
-          />
-        </label>
+            <label>
+              Your name
+              <input
+                name="name"
+                value={form.name}
+                onChange={update}
+                required
+                placeholder="Name"
+                autoFocus
+              />
+            </label>
 
-        <label>
-          Phone number
-          <input
-            name="phone"
-            type="tel"
-            inputMode="tel"
-            value={form.phone}
-            onChange={update}
-            required
-            placeholder="+91"
-          />
-        </label>
+            <label>
+              Phone number
+              <input
+                name="phone"
+                type="tel"
+                inputMode="tel"
+                value={form.phone}
+                onChange={update}
+                required
+                placeholder="+91 XXXXX XXXXX"
+              />
+            </label>
 
-        <label>
-          Service
-          <select
-            name="service"
-            value={form.service}
-            onChange={update}
-          >
-            {SERVICES.map((item) => (
-              <option key={item.title} value={item.title}>
-                {item.title}
-              </option>
-            ))}
-          </select>
-        </label>
+            <label>
+              Service
+              <select name="service" value={form.service} onChange={update}>
+                {SERVICES.map((item) => (
+                  <option key={item.title} value={item.title}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-        <label>
-          Area & property size
-          <input
-            name="area"
-            value={form.area}
-            onChange={update}
-            placeholder="e.g. Kowdiar, 3 BHK"
-          />
-        </label>
+            <label>
+              Location
+              <input
+                name="area"
+                value={form.area}
+                onChange={update}
+                placeholder="e.g. Kowdiar"
+              />
+            </label>
 
-        <label>
-          Anything else?
-          <textarea
-            name="message"
-            value={form.message}
-            onChange={update}
-            rows="3"
-            placeholder="Tell us a little more (optional)"
-          />
-        </label>
+            <label>
+              Tell us more (optional)
+              <textarea
+                name="message"
+                value={form.message}
+                onChange={update}
+                rows="3"
+              />
+            </label>
 
-        <button
-          className="button button--dark button--wide"
-          type="submit"
-        >
-          Continue to WhatsApp <span>↗</span>
-        </button>
+            <button
+              className="button button--dark button--wide"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting enquiry..." : "Enquire Now"}
+            </button>
 
-        <p className="privacy-note">
-          Your details are used only to respond to this enquiry.
-        </p>
-      </form>
+            <p className="privacy-note">
+              Your details are used only to respond to this enquiry.
+            </p>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
@@ -555,16 +588,13 @@ function About({ onEnquire }) {
             ))}
           </div>
 
-          <a
+          <button
             className="button button--cream"
-            href={wa(
-              "Hello CleanO! I'm interested in your Bathroom Deep Cleaning Monthly Plan for ₹2,499 (4 cleaning visits per month). Please share the booking details."
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
+            type="button"
+            onClick={() => onEnquire("Bathroom Deep Cleaning")}
           >
             Book Monthly Plan <span>↗</span>
-          </a>
+          </button>
         </div>
       </div>
     </section>
@@ -600,7 +630,7 @@ function Process({ onEnquire }) {
   ];
 
   return (
-    <section className="process-section section-pad">
+    <section className="process-section section-pad" id="process">
       <div className="container">
         <div className="section-heading process-heading">
           <div>
@@ -687,7 +717,6 @@ function Footer() {
             <h3>EXPLORE</h3>
             <a href="#home">Home</a>
             <a href="#services">Our services</a>
-            <a href="#about">Why Cleano</a>
           </div>
 
           <div className="footer-col">
@@ -832,16 +861,34 @@ export default function App() {
       <Footer />
 
       {/* FLOATING WHATSAPP BUTTON */}
-
       <a
         className="whatsapp-float"
         href={wa("Hi Cleano, I'd like to enquire about your services.")}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         aria-label="Chat with Cleano on WhatsApp"
+        title="Chat with us on WhatsApp"
       >
-        <span className="wa-icon">◔</span>
-        <span>Let's chat</span>
+        <svg
+          className="wa-icon"
+          viewBox="0 0 32 32"
+          role="img"
+          aria-label="WhatsApp"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16 3.1a12.6 12.6 0 0 0-10.8 19.1L3.5 28.5l6.5-1.7A12.6 12.6 0 1 0 16 3.1Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M11.2 9.4c-.4-.5-.7-.5-1-.5h-.7c-.3 0-.7.1-1 .5-.4.4-1.3 1.3-1.3 3.1s1.3 3.6 1.5 3.8c.2.3 2.6 4.1 6.4 5.6 3.1 1.2 3.8 1 4.5.9.7-.1 2.2-.9 2.5-1.8.3-.9.3-1.7.2-1.8-.1-.2-.4-.3-.8-.5l-2.6-1.2c-.4-.2-.7-.3-1 .2-.3.4-1 1.2-1.2 1.5-.2.3-.4.3-.8.1-.4-.2-1.7-.6-3.1-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.3-.4.4-.6.1-.3 0-.5 0-.7l-1.2-2.9Z"
+            fill="currentColor"
+          />
+        </svg>
       </a>
 
       {/* BOOKING MODAL */}
